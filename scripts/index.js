@@ -12,7 +12,6 @@ function createCard(value) {
     deleteCard(event);
   });
   return cardElement
-  console.log(cardElement);
 }
 
 function deleteCard(value) {

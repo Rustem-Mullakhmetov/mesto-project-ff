@@ -1,4 +1,4 @@
-import { popupElements } from "../index.js";
+import { popupElements} from "../index.js";
 
 //Закрытие модального окна при нажатии вне контента
 export function handleOutside(evt) {
@@ -8,15 +8,15 @@ export function handleOutside(evt) {
 //Закрытие модальных окон при нажатии Esc
 export function handleEscClose (evt) {
   if (evt.key === 'Escape') {
-    closeModal();
+    popupElements.forEach((item) => {
+      item.classList.remove('popup_is-opened');
+    });
   }
 }
 
 //Закрытие модальных окон при нажатии на крестик
-export function closeModal() {
-  popupElements.forEach((item) => {
-    item.classList.remove('popup_is-opened');
-  })
+export function closeModal(item) {
+  item.classList.remove('popup_is-opened'); 
 }
 
 //Открытие модальных окон

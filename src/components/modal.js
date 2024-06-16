@@ -10,15 +10,16 @@ export function handleOutside(evt) {
 
 //Закрытие модальных окон при нажатии Esc
 export function handleEscClose (evt) {
-  const popupOpen = document.querySelector('.popup_is-opened');
   if (evt.key === 'Escape') {
+    const popupOpen = document.querySelector('.popup_is-opened');
     closeModal(popupOpen);
   }
 }
 
 //Закрытие модальных окон при нажатии на крестик
 export function closeModal(item) {
-  item.classList.remove('popup_is-opened'); 
+  item.classList.remove('popup_is-opened');
+  document.removeEventListener('keydown', handleEscClose);
 }
 
 //Открытие модальных окон

@@ -1,7 +1,7 @@
 import './pages/index.css';
 import {initialCards as inCards} from './components/cards.js';
 import {createCard, deleteCard, likeButton} from './components/card.js';
-import {openModal, handleOutside, closeModal,handleEscClose} from './components/modal.js';
+import {openModal, handleOutside, closeModal} from './components/modal.js';
 
 const cardContainer = document.querySelector('.places__list');
 export const card = document.querySelector('#card-template').content;
@@ -25,7 +25,6 @@ const cardPlace = formElementCard.elements.place_name;
 const cardImageLink = formElementCard.elements.link;
 
 //слушатели закрытия по кнопкам
-document.addEventListener('keydown', handleEscClose);
 popupCloseEditProfile.addEventListener('click', () => closeModal(popupTypeEdit));
 popupTypeEdit.addEventListener('click', handleOutside);
 popupTypeNewCard.addEventListener('click', handleOutside);
@@ -85,4 +84,5 @@ export function openModalImage(name, link) {
   openModal(popupTypeImage);
   cardName.textContent = name;
   cardLink.src = link;
+  cardLink.alt = name;
 }

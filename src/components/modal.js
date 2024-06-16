@@ -1,16 +1,18 @@
-import { popupElements} from "../index.js";
 
 //Закрытие модального окна при нажатии вне контента
 export function handleOutside(evt) {
-    evt.target.classList.toggle('popup_is-opened');
+  const popupOpen = document.querySelector('.popup_is-opened');
+  if (evt.target.classList.contains('popup_is-opened')) {
+    closeModal(popupOpen);
+  }
+  
 }
 
 //Закрытие модальных окон при нажатии Esc
 export function handleEscClose (evt) {
+  const popupOpen = document.querySelector('.popup_is-opened');
   if (evt.key === 'Escape') {
-    popupElements.forEach((item) => {
-      item.classList.remove('popup_is-opened');
-    });
+    closeModal(popupOpen);
   }
 }
 
@@ -21,5 +23,6 @@ export function closeModal(item) {
 
 //Открытие модальных окон
 export function openModal(item) {
+  document.addEventListener('keydown', handleEscClose);
   item.classList.add('popup_is-opened');
 }

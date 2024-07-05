@@ -1,4 +1,3 @@
-
 //Закрытие модального окна при нажатии вне контента
 export function handleOutside(evt) {
   const popupOpen = document.querySelector('.popup_is-opened');

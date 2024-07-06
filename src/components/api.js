@@ -37,7 +37,7 @@ export const getCards = () => {
 };
 
 // Добавление новой карточки
-export const newCard = (name, link) => {
+export const addNewCard = (name, link) => {
   return request(routesApi.cards, {
     method: "POST",
     headers,
@@ -49,7 +49,7 @@ export const newCard = (name, link) => {
 };
 
 // Удаление карточки по идентификатору
-export const deleteCardId = (id) => {
+export const deleteUserCard = (id) => {
   return request(`${routesApi.cards}/${id}`, {
     method: "DELETE",
     headers

@@ -1,5 +1,5 @@
 import {card} from '../index.js';
-import { deleteCardId, deleteLikeCard, addLikeCard } from './api.js';
+import { deleteUserCard, deleteLikeCard, addLikeCard } from './api.js';
 
 export function createCard(cardInfo, deleteCard, handleLikes, openModalImage, userId) {
   const cardElement = card.querySelector('.places__item').cloneNode(true);
@@ -64,7 +64,7 @@ export function handleLikes(cardLikeCounter, cardLikeButton, cards) {
   
 // Функция удаления карточки
 export function deleteCard(selectedCard, id) {
-  deleteCardId(id)// Отправляем запрос на сервер для удаления карточки
+  deleteUserCard(id)// Отправляем запрос на сервер для удаления карточки
     .then(() => {
       // Удаляем карточку из DOM после успешного удаления
       selectedCard.remove();

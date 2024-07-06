@@ -2,7 +2,7 @@ import './pages/index.css';
 import {createCard, deleteCard, handleLikes} from './components/card.js';
 import {openModal, handleOutside, closeModal} from './components/modal.js';
 import { enableValidation, clearValidation } from './components/validation.js';
-import { getCards, getUser, newCard, updateAvatar } from './components/api.js';
+import { getCards, getUser, addNewCard, updateAvatar } from './components/api.js';
 
 const cardContainer = document.querySelector('.places__list');
 export const card = document.querySelector('#card-template').content;
@@ -30,7 +30,7 @@ const formElementCard = document.forms.new_place;
 const cardPlace = formElementCard.elements.place_name;
 const avatarFormElement = document.forms.edit_avatar;
 const cardImageLink = formElementCard.elements.link;
-export const validationConfig = {
+const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
@@ -89,14 +89,14 @@ function setUserInfo(user) {
 }
 
 //Редакция автара
-function addAvatar() {
+function popupAvatar() {
   clearValidation(avatarForm, validationConfig);
   avatarFormElement.reset();
   openModal(avatarForm);
 }
 
 //Функция редакции профиля
-function editProfile() {
+function popupProfile() {
   clearValidation(popupTypeEdit, validationConfig);
   openModal(popupTypeEdit);
   nameInput.value = profileName.textContent;
@@ -130,7 +130,7 @@ export function renderCards(cards, deleteCard, handleLikes, openModalImage, user
 function handleCardFormSubmit(evt) {  
   evt.preventDefault();
   function makeRequest() {
-    return newCard(cardPlace.value, cardImageLink.value)
+    return addNewCard(cardPlace.value, cardImageLink.value)
       .then((card) => {
         const newCardElement = createCard(card, deleteCard, handleLikes, openModal, userId);
         cardContainer.prepend(newCardElement);
@@ -158,11 +158,11 @@ export function handleAvatarFormSubmit(evt) {
 }
 
 //клик на кнопку редактировать профиль
-editButton.addEventListener('click', editProfile);
+editButton.addEventListener('click', popupProfile);
 //клик на кнопку создания карточки
 buttonOpenPopupCard.addEventListener('click', addCard);
 //клик на аватар
-avatarImage.addEventListener('click', addAvatar)
+avatarImage.addEventListener('click', popupAvatar)
 
 // Универсальная функция, которая принимает функцию запроса, объект события и текст во время загрузки
 export function handleSubmit(request, evt) {

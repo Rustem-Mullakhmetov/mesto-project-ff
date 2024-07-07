@@ -2,7 +2,7 @@ import './pages/index.css';
 import {createCard, deleteCard, handleLikes} from './components/card.js';
 import {openModal, handleOutside, closeModal} from './components/modal.js';
 import { enableValidation, clearValidation } from './components/validation.js';
-import { getCards, getUser, addNewCard, updateAvatar } from './components/api.js';
+import { getCards, getUser, addNewCard, updateAvatar, updateUser } from './components/api.js';
 
 const cardContainer = document.querySelector('.places__list');
 export const card = document.querySelector('#card-template').content;
@@ -52,14 +52,6 @@ popupCloseAvatar.addEventListener('click', () => closeModal(avatarForm));
 avatarForm.addEventListener('click', handleOutside);
 avatarFormElement.addEventListener('submit', handleAvatarFormSubmit);
 
-//Отправка формы при редакции профиля
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-  profileName.textContent = nameInput.value;
-  profileDescription.textContent = jobInput.value;
-  closeModal(popupTypeEdit);
-}
-
 //Навешиваем анимацию на каждый попап
 popupElements.forEach((item) => {
   item.classList.add('popup_is-animated');
@@ -89,22 +81,50 @@ function setUserInfo(user) {
 }
 
 //Редакция автара
-function popupAvatar() {
+function openPopupAvatar() {
   clearValidation(avatarForm, validationConfig);
   avatarFormElement.reset();
   openModal(avatarForm);
 }
 
 //Функция редакции профиля
-function popupProfile() {
+function openPopupEditProfile() {
   clearValidation(popupTypeEdit, validationConfig);
   openModal(popupTypeEdit);
+  setInitialEditProfileFormValues();
+}
+
+// Установка начальных значений в форме редактирования профиля
+function setInitialEditProfileFormValues() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
 }
 
+// Обработчик события отправки формы редактирования профиля
+export function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
+  // Функция для выполнения запроса на сервер для обновления данных профиля
+  function makeRequest() {
+    const name = nameInput.value;
+    const about = jobInput.value;
+    // Выполнение запроса на сервер
+    return updateUser(name, about)
+      .then((dataUser) => {
+        // Обновление отображаемых данных профиля на странице
+        profileName.textContent = dataUser.name;
+        profileDescription.textContent = dataUser.about;
+        // Установка начальных значений в форме редактирования профиля
+        setInitialEditProfileFormValues();
+        // Закрытие попапа после успешного обновления профиля
+        closeModal(popupTypeEdit);
+      });
+  }
+  // Вызов общей функции для обработки отправки формы
+  handleSubmit(makeRequest, evt);
+}
+
 //Функция открытия формы добавления карточки
-function addCard(){
+function openPopupAddCard(){
   clearValidation(popupTypeNewCard, validationConfig);
   formElementCard.reset();
   openModal(popupTypeNewCard);
@@ -158,11 +178,11 @@ export function handleAvatarFormSubmit(evt) {
 }
 
 //клик на кнопку редактировать профиль
-editButton.addEventListener('click', popupProfile);
+editButton.addEventListener('click', openPopupEditProfile);
 //клик на кнопку создания карточки
-buttonOpenPopupCard.addEventListener('click', addCard);
+buttonOpenPopupCard.addEventListener('click', openPopupAddCard);
 //клик на аватар
-avatarImage.addEventListener('click', popupAvatar)
+avatarImage.addEventListener('click', openPopupAvatar)
 
 // Универсальная функция, которая принимает функцию запроса, объект события и текст во время загрузки
 export function handleSubmit(request, evt) {
